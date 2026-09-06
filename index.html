@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Catallaxy Services | Understanding and Eliminating SQL Injection</title>
+
+		<link rel="stylesheet" href="../reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="../reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="../reveal.js/dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="../WebsiteAssets/mods.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h2>Understanding and Eliminating</h2>
+					<h2>SQL Injection</h2>
+					
+					<a href="https://www.catallaxyservices.com">Kevin Feasel</a> (<a href="https://twitter.com/feaselkl">@feaselkl</a>)<br />
+					<a href="http://CSmore.info/on/sqli">http://CSmore.info/on/sqli</a>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Who Am I?  What Am I Doing Here?</h3>
+					<div class="container">
+						<div class="col">
+							<table class="whoami">
+								<tr>
+									<td><a href="https://csmore.info"><img src="../WebsiteAssets/Logo.png" height="100" /></a></td>
+									<td nowrap><a href="https://csmore.info">Catallaxy Services</a></td>
+								</tr>
+								<tr>
+									<td><a href="https://curatedsql.com"><img src="../WebsiteAssets/CuratedSQLLogo.png" height="100" /></a></td>
+									<td nowrap><a href="https://curatedsql.com">Curated SQL</a></td>
+								</tr>
+								<tr>
+									<td><a href="https://www.apress.com/us/book/9781484254608"><img src="../WebsiteAssets/PolyBaseRevealed.png" height="120" /></a></td>
+									<td nowrap><a href="https://www.apress.com/us/book/9781484254608">PolyBase Revealed</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col">
+							<a href="http://www.twitter.com/feaselkl"><img src="../WebsiteAssets/HeadShot.jpg" height="358" width="315" /></a>
+							<br />
+							<a href="http://www.twitter.com/feaselkl">@feaselkl</a>
+						</div>					
+					</div>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>What Is An Injection Attack?</h3>
+
+					<p>An injection attack is when you insert code in a manner the application developers did not expect.</p>
+					<p>Example:  your text box populates @Parameter to do a lookup on a table.  An attacker overloads @Parameter to perform some unexpected operation.</p>
+					<p>Another way of thinking about injection attacks:  getting "outside" the parameter.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>What Is An Injection Attack?</h3>
+					
+					<p><strong>SQL injection is not the only injection attack available.</strong></p>
+					<ul>
+						<li>Javascript (e.g., cross-site scripting)</li>
+						<li>LDAP</li>
+						<li>NoSQL databases (e.g., MongoDB)</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Why Should I Care?</h3>
+					<ul>
+						<li><a href="http://cwe.mitre.org/documents/vuln-trends/index.html">By 2006</a>, web application vulnerabilities had become more popular than buffer overflows.</li>
+						<li>SQL injection (and injection attacks in general) are <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10">#1 on the OWASP top 10 list</a>.</li>
+						<li><a href="http://tinyurl.com/PY8LTLF">2011 Imperva study</a>:  83% of successful data breaches involve SQL injection</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Why Should I Care?</h3>
+					<img src="presentation/assets/image/Companies.png" alt="So you don't end up on this list..." height="638px" width="849px" />
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>What Can An Attacker Do?</h3>
+					<ul>
+						<li>Get schema information</li>
+						<li>Get protected data</li>
+						<li>Perform "administrative" tasks
+							<ul>
+								<li>Create bogus user accounts (including administrative accounts)</li>
+								<li>Create, drop, or alter tables or views</li>
+								<li>Delete, update, or insert data</li>
+							</ul></li>
+						<li>Run arbitrary executable code</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>What SQL Injection Vulnerability Tells Me</h3>
+					<p>Because of how easy it is to stop SQL injection, your application being susceptible indicates that you may have bigger problems, like:</p>
+					<ol>
+						<li>Using administrative accounts instead of least-privilege accounts</li>
+						<li>Not protecting against other web application attacks (e.g., cross-site scripting, cross-site request forgery, or iframe injection)</li>
+						<li>Not having measures in place to protect against data loss</li>
+						<li>Not taking appropriate care of sensitive data (e.g., not hashing passwords properly, storing card data in violation of PCI standards)</li.
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/demo.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/wrappingup.jpg" data-background-opacity="0.2">
+					<h3>Wrapping Up</h3>
+					<p>There is one and only one way to protect yourself against SQL injection:  <strong>parameterize your queries</strong>.</p>
+					<p>To learn how to do this for non-ASP.Net solutions, go to <a href="http://bobby-tables.com/">http://bobby-tables.com</a>.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/wrappingup.jpg" data-background-opacity="0.2">
+					<h3>Wrapping Up</h3>
+					
+					<p>
+						To learn more, go here:
+						<br />
+						<a href="https://csmore.info/on/sqli">https://CSmore.info/on/sqli</a>
+					</p>
+					<br />
+					<p>
+						And for help, contact me:
+						<br />
+						<a href="mailto:feasel@catallaxyservices.com">feasel@catallaxyservices.com</a> | <a href="https://www.twitter.com/feaselkl">@feaselkl</a>
+					</p>
+					<br />
+					<p>
+						Catallaxy Services consulting:
+						<br />
+						<a href="https://csmore.info/contact">https://CSmore.info/on/contact</a>
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="../reveal.js/dist/reveal.js"></script>
+		<script src="../reveal.js/plugin/zoom/zoom.js"></script>
+		<script src="../reveal.js/plugin/notes/notes.js"></script>
+		<script src="../reveal.js/plugin/search/search.js"></script>
+		<script src="../reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="../reveal.js/plugin/math/math.js"></script>
+		<script src="../reveal.js/plugin/menu/menu.js"></script>
+		<script src="../reveal.js/plugin/highlight/highlight.js"></script>
+		<script src="../reveal.js/plugin/chart/Chart.min.js"></script>
+		<script src="../reveal.js/plugin/chart/plugin.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				width: '70%',
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				transition: 'fade',
+				
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath, RevealMenu, RevealChart ]
+			});
+		</script>
+	</body>
+</html>
